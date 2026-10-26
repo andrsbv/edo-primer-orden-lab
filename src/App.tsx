@@ -73,9 +73,10 @@ export default function App() {
   const [solutionId, setSolutionId] = useState(0);
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem("edo-theme") === "dark" ? "dark" : "light";
+      // Oscuro por defecto. Respetar una preferencia clara elegida previamente.
+      return localStorage.getItem("edo-theme") === "light" ? "light" : "dark";
     } catch {
-      return "light";
+      return "dark";
     }
   });
   const changeTheme = () => {
