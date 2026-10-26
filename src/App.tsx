@@ -347,17 +347,19 @@ export default function App() {
         </section>
       </main>
       <footer>
-        <a className="brand footer-brand" href="#">
-          <span className="brand-mark brand-mark-logo footer-logo">
-            <img className="brand-logo" src="/ecotec-logo.svg" alt="Logo de ECOTEC" />
-          </span>
-          <span className="brand-stack">
-            <strong>EDO<span>lab</span></strong>
-            <span className="brand-label">ECOTEC</span>
-          </span>
-        </a>
-        <div className="footer-credit">
-          <strong>Desarrollado por Erick Castro</strong>
+        <div className="footer-identity">
+          <a className="brand footer-brand" href="#">
+            <span className="brand-mark brand-mark-logo footer-logo">
+              <img className="brand-logo" src="/ecotec-logo.svg" alt="Logo de ECOTEC" />
+            </span>
+            <span className="brand-stack">
+              <strong>EDO<span>lab</span></strong>
+              <span className="brand-label">ECOTEC</span>
+            </span>
+          </a>
+          <div className="footer-credit">
+            <strong>Desarrollado por Erick Castro</strong>
+          </div>
         </div>
         <p>Hecho para aprender, experimentar y descubrir.</p>
         <a

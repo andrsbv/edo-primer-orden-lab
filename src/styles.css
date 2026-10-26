@@ -2394,3 +2394,47 @@ footer > span {
 .petri-inner { border-color: #9cc5ed75; background: radial-gradient(circle at 30% 20%, #d6e9fc8a, #72a8ee1a); }
 .bacterium { background: var(--accent-soft); box-shadow: 0 0 0 1px #ffffff55; }
 .bacterium.alive { opacity: 1; }
+
+/* Ajustes de la versión final: placa circular nítida y créditos alineados. */
+.footer-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 28px);
+  min-width: 0;
+  max-width: 100%;
+}
+.footer-identity .footer-brand { flex-shrink: 0; }
+.footer-identity .footer-credit {
+  justify-content: center;
+  min-width: 0;
+}
+.petri-dish {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  min-height: 0;
+}
+.petri-inner {
+  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+}
+@media (max-width: 560px) {
+  .petri-area {
+    min-height: 0;
+    gap: 18px;
+    justify-content: flex-start;
+    padding: 24px clamp(16px, 5vw, 24px);
+  }
+  .petri-dish {
+    width: min(270px, 100%);
+  }
+  .footer-identity {
+    width: 100%;
+    gap: clamp(12px, 4vw, 20px);
+  }
+  .footer-identity .footer-credit strong {
+    font-size: clamp(9px, 2.5vw, 11px);
+    line-height: 1.4;
+  }
+}

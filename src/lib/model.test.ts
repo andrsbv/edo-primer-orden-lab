@@ -177,3 +177,34 @@ describe("Estabilidad numérica", () => {
     expect(tex(1e100)).toBe("1\\times 10^{100}");
   });
 });
+
+describe("Verificaciones finales de consistencia matemática", () => {
+  it("mantiene la ecuación P'(t) = kP(t) en ambos modelos", () => {
+    for (const model of [growth, decay]) {
+      for (const t of [0.5, 1, 2.5, 5, 8]) {
+        const h = 0.00001;
+        const derivative =
+          (population(model, t + h) - population(model, t - h)) / (2 * h);
+        const expected = model.k * population(model, t);
+        expect(derivative / expected).toBeCloseTo(1, 8);
+      }
+    }
+  });
+  it("respeta duplicación, vida media y la dirección de la curva", () => {
+    for (let t = 0; t <= 15; t += 1) {
+      expect(population(growth, t + 5) / population(growth, t)).toBeCloseTo(2, 12);
+      expect(population(decay, t + 5) / population(decay, t)).toBeCloseTo(0.5, 12);
+      expect(population(growth, t + 1)).toBeGreaterThan(population(growth, t));
+      expect(population(decay, t + 1)).toBeLessThan(population(decay, t));
+    }
+  });
+  it("conserva valores de tabla, diferencias y porcentajes en cada instante", () => {
+    for (const model of [growth, decay]) {
+      for (const point of makePoints(model, 10, 20)) {
+        expect(point.p).toBe(population(model, point.t));
+        expect(point.delta).toBeCloseTo(point.p - model.p0, 12);
+        expect(point.percent).toBeCloseTo(100 * (point.p - model.p0) / model.p0, 10);
+      }
+    }
+  });
+});
