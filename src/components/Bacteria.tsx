@@ -61,7 +61,7 @@ export function Bacteria({
   const t = horizon * progress;
   const p = population(model, t);
   const maxP = Math.max(model.p0, population(model, horizon));
-  const visible = (p / maxP) * CELLS.length;
+  const visible = Math.max(0, Math.min(CELLS.length, (p / maxP) * CELLS.length));
   return (
     <section id="simulacion" className="section-block">
       <SectionTitle
@@ -78,8 +78,9 @@ export function Bacteria({
           </div>
           <div
             className="petri-dish"
+            data-testid="petri-dish"
             role="img"
-            aria-label={`Representación proporcional de ${format(p)} unidades en t = ${format(t)} ${model.unit}`}
+            aria-label={`Placa circular con ${Math.ceil(visible)} de 96 puntos visibles, que representan ${format(p)} unidades en t = ${format(t)} ${model.unit}`}
           >
             <div className="petri-inner">
               {CELLS.map((cell, i) => (

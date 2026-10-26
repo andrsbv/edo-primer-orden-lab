@@ -110,16 +110,15 @@ export default function App() {
       </a>
       <header className="topbar">
         <a className="brand" href="#">
-          <span className="brand-mark">
-            <svg viewBox="0 0 32 32" aria-hidden="true">
-              <path d="M7 24h19M8 24V7M11 21c9 0 12-5 13-14" />
-            </svg>
+          <span className="brand-mark brand-mark-logo">
+            <img className="brand-logo" src="/ecotec-logo.svg" alt="Logo de ECOTEC" />
           </span>
-          <strong>
-            EDO<span>lab</span>
-          </strong>
+          <span className="brand-stack">
+            <strong>EDO<span>lab</span></strong>
+            <span className="brand-label">ECOTEC</span>
+          </span>
           <span className="brand-divider" />
-          <span className="brand-subtitle">MATEMÁTICAS EN MOVIMIENTO</span>
+          <span className="brand-subtitle">LABORATORIO INTERACTIVO DE ECUACIONES DIFERENCIALES</span>
         </a>
         <nav aria-label="Navegación principal">
           <a className="nav-active" href="#laboratorio">
@@ -145,7 +144,7 @@ export default function App() {
           <div className="hero-main">
             <div className="eyebrow hero-eyebrow">
               <span className="green-dot" />
-              UN PEQUEÑO LABORATORIO DE GRANDES IDEAS
+              UN LABORATORIO ECOTEC DE GRANDES IDEAS
             </div>
             <h1>
               Lo que cambia,
@@ -348,10 +347,17 @@ export default function App() {
       </main>
       <footer>
         <a className="brand footer-brand" href="#">
-          <strong>
-            EDO<span>lab</span>
-          </strong>
+          <span className="brand-mark brand-mark-logo footer-logo">
+            <img className="brand-logo" src="/ecotec-logo.svg" alt="Logo de ECOTEC" />
+          </span>
+          <span className="brand-stack">
+            <strong>EDO<span>lab</span></strong>
+            <span className="brand-label">ECOTEC</span>
+          </span>
         </a>
+        <div className="footer-credit">
+          <strong>Desarrollado por Erick Castro</strong>
+        </div>
         <p>Hecho para aprender, experimentar y descubrir.</p>
         <a
           href="https://github.com/andrsbv/edo-primer-orden-lab"

@@ -57,6 +57,11 @@ export function PopulationChart({
   const currentP = population(model, currentT);
   const inspected = hover ?? currentT;
   const inspectedP = population(model, inspected);
+  // Puntos de referencia tenues: la curva sigue siendo continua.
+  const sampledPoints = useMemo(
+    () => data.filter((_, index) => index > 0 && index < data.length - 1 && index % 18 === 0),
+    [data],
+  );
   const ticks = width < 500 ? 4 : 5;
   const atPointer = (event: React.PointerEvent<SVGSVGElement>) => {
     const box = event.currentTarget.getBoundingClientRect();
@@ -73,13 +78,13 @@ export function PopulationChart({
       canvas.height = 1000;
       const ctx = canvas.getContext("2d");
       if (!ctx) throw new Error("Tu navegador no permite exportar imágenes.");
-      ctx.fillStyle = "#fcfdf9";
+      ctx.fillStyle = "#f5f8fc";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#203c31";
+      ctx.fillStyle = "#163158";
       ctx.font = "bold 38px system-ui";
       ctx.fillText("EDO LAB · Evolución de la cantidad", 110, 90);
       ctx.font = "23px system-ui";
-      ctx.fillStyle = "#5e6d65";
+      ctx.fillStyle = "#5f6f87";
       ctx.fillText(
         `P(t) = ${model.p0} · exp(${model.k} · t)    |    t en ${model.unit}`,
         110,
@@ -95,19 +100,19 @@ export function PopulationChart({
       for (let i = 0; i <= 5; i++) {
         const p = (i / 5) * maxP;
         const t = start + (i / 5) * (end - start);
-        ctx.strokeStyle = "#e2e8df";
+        ctx.strokeStyle = "#d8e3f0";
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(l, py(p));
         ctx.lineTo(r, py(p));
         ctx.stroke();
-        ctx.fillStyle = "#53635b";
+        ctx.fillStyle = "#5f6f87";
         ctx.textAlign = "right";
         ctx.fillText(format(p, 2), l - 22, py(p) + 8);
         ctx.textAlign = "center";
         ctx.fillText(format(t, 2), px(t), b + 42);
       }
-      const color = model.kind === "growth" ? "#34784d" : "#b55d33";
+      const color = model.kind === "growth" ? "#1f56a8" : "#27b6e6";
       ctx.beginPath();
       data.forEach((point, i) => {
         if (i === 0) ctx.moveTo(px(point.t), py(point.p));
@@ -116,6 +121,14 @@ export function PopulationChart({
       ctx.strokeStyle = color;
       ctx.lineWidth = 5;
       ctx.stroke();
+      sampledPoints.forEach((point) => {
+        ctx.beginPath();
+        ctx.arc(px(point.t), py(point.p), 3.3, 0, Math.PI * 2);
+        ctx.globalAlpha = 0.45;
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
       const dot = (t: number, p: number, fill: string) => {
         if (t < start || t > end) return;
         ctx.beginPath();
@@ -127,9 +140,9 @@ export function PopulationChart({
         ctx.stroke();
       };
       dot(0, model.p0, color);
-      dot(model.t1, model.p1, "#657993");
-      dot(currentT, currentP, "#152c24");
-      ctx.fillStyle = "#203c31";
+      dot(model.t1, model.p1, "#27b6e6");
+      dot(currentT, currentP, "#163158");
+      ctx.fillStyle = "#163158";
       ctx.textAlign = "center";
       ctx.font = "26px system-ui";
       ctx.fillText(`Tiempo t (${model.unit})`, (l + r) / 2, 905);
@@ -139,9 +152,9 @@ export function PopulationChart({
       ctx.fillText("Cantidad P(t)", 0, 0);
       ctx.restore();
       ctx.font = "20px system-ui";
-      ctx.fillStyle = "#53635b";
+      ctx.fillStyle = "#5f6f87";
       ctx.fillText(
-        "● Curva del modelo     ● Punto observado (azul)     ● Instante de simulación (oscuro)",
+        "● Curva     ● Puntos del recorrido     ● Observación     ● Simulación",
         900,
         965,
       );
@@ -183,6 +196,10 @@ export function PopulationChart({
             <span>
               <i className="legend-line" />
               Modelo exponencial
+            </span>
+            <span>
+              <i className="legend-dot sampled" />
+              Puntos del recorrido
             </span>
             <span>
               <i className="legend-dot observed" />
@@ -281,6 +298,12 @@ export function PopulationChart({
               strokeWidth="3"
               strokeLinecap="round"
             />
+            <g aria-hidden="true">
+              {sampledPoints.map((point, index) => (
+                <circle key={index} cx={x(point.t)} cy={y(point.p)} r="2.1"
+                  fill="var(--accent)" opacity=".45" />
+              ))}
+            </g>
             {start === 0 && (
               <circle
                 cx={x(0)}
@@ -298,7 +321,7 @@ export function PopulationChart({
                 cx={x(model.t1)}
                 cy={y(model.p1)}
                 r="6"
-                fill="#6d82a2"
+                fill="var(--lime)"
                 stroke="var(--surface)"
                 strokeWidth="2"
               >
